@@ -1,43 +1,110 @@
 :root{
-    --cor-fundo: #660b0b ;
-    --cor-principal: #573737 ;
-    --cor-secundaria: #500b33; 
-    --cor-destaque: #c246ad;
-    --cor-texto: #D7F9FF;
+
+    --cor-fundo:#0F172A;
+    --cor-principal:#1E293B;
+    --cor-secundaria:#2563EB;
+    --cor-destaque:#38BDF8;
+    --cor-texto:#F8FAFC;
 
 }
 
-body {
-    background-color: var(--cor-fundo);
-    color: var(--cor-texto);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+
+    background:linear-gradient(135deg,#0F172A,#1E3A8A);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    min-height:100vh;
+
 }
 
 .caixa-principal{
-    background-color: var(--cor-principal);
-    width: 90%;
-    max-width: 600px;
-    text-align: center;
-    padding: 20px;
+
+    width:90%;
+    max-width:700px;
+
+    background:var(--cor-principal);
+
+    padding:30px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    box-shadow:0 0 20px rgba(0,0,0,.4);
+
 }
 
 h1{
-    color: var(--cor-destaque);
+
+    color:var(--cor-destaque);
+    margin-bottom:20px;
+
 }
 
-button {
-    background-color: var(--cor-secundaria);
-    color: var(--cor-texto);
-    border: none;
-    border-radius: 15px;
-    padding: 15px;
-    transition: background-color 0.3s;
+.caixa-perguntas{
+
+    font-size:22px;
+
+    margin:30px 0;
+
+}
+
+.caixa-alternativas{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+button{
+
+    background:var(--cor-secundaria);
+
+    color:white;
+
+    border:none;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    font-size:17px;
+
 }
 
 button:hover{
-    background-color: var(--cor-destaque);
-    color: var(--cor-principal);
+
+    background:var(--cor-destaque);
+
+    color:#000;
+
+    transform:scale(1.05);
+
+}
+
+.caixa-resultado{
+
+    margin-top:30px;
+
+    font-size:20px;
+
+    line-height:1.6;
+
 }
