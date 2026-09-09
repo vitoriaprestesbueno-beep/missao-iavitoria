@@ -1,126 +1,149 @@
-const caixaPerguntas = document.querySelector(".caixa-perguntas");
-const caixaAlternativas = document.querySelector(".caixa-alternativas");
-const textoResultado = document.querySelector(".texto-resultado");
+const caixaPerguntas =
+    document.querySelector(".caixa-perguntas");
 
-const perguntas = [
+const caixaAlternativas =
+    document.querySelector(".caixa-alternativas");
 
-{
-    enunciado: "Qual atividade você prefere?",
-    alternativas: [
-        {
-            texto: "Resolver problemas e desafios.",
-            afirmacao: "Você gosta de pensar de forma lógica e estratégica."
-        },
-        {
-            texto: "Criar desenhos, vídeos ou projetos.",
-            afirmacao: "Sua criatividade é seu maior talento."
-        }
-    ]
-},
+const caixaResultado =
+    document.querySelector(".caixa-resultado");
 
-{
-    enunciado: "Como você trabalha melhor?",
-    alternativas: [
-        {
-            texto: "Em equipe.",
-            afirmacao: "Você sabe colaborar e compartilhar ideias."
-        },
-        {
-            texto: "Sozinho.",
-            afirmacao: "Você possui bastante autonomia."
-        }
-    ]
-},
+const textoResultado =
+    document.querySelector(".texto-resultado");
 
-{
-    enunciado: "Qual matéria você mais gosta?",
-    alternativas: [
-        {
-            texto: "Matemática.",
-            afirmacao: "Você tem facilidade com cálculos e raciocínio."
-        },
-        {
-            texto: "Artes.",
-            afirmacao: "Você gosta de criar coisas novas."
-        }
-    ]
-},
+const numeroPergunta =
+    document.querySelector(".numero-pergunta");
 
-{
-    enunciado: "O que faria em um projeto?",
-    alternativas: [
-        {
-            texto: "Organizaria tudo.",
-            afirmacao: "Você possui perfil de liderança."
-        },
-        {
-            texto: "Criaria o design.",
-            afirmacao: "Você gosta de inovar visualmente."
-        }
-    ]
-},
+const barraProgresso =
+    document.querySelector(".barra-progresso");
 
-{
-    enunciado: "Qual profissão chama mais sua atenção?",
-    alternativas: [
-        {
-            texto: "Engenheiro(a).",
-            afirmacao: "Você tem perfil voltado para tecnologia e inovação."
-        },
-        {
-            texto: "Designer.",
-            afirmacao: "Você gosta de criar experiências e projetos criativos."
-        }
-    ]
-}
+const botaoReiniciar =
+    document.querySelector(".botao-reiniciar");
 
-];
 
 let atual = 0;
+
+let perguntaAtual;
+
 let historiaFinal = "";
 
-function mostraPergunta(){
 
-    if(atual >= perguntas.length){
-        mostrarResultado();
+/* MOSTRA A PERGUNTA */
+
+function mostraPergunta() {
+
+    if (atual >= perguntas.length) {
+
+        mostraResultado();
+
         return;
     }
 
-    const perguntaAtual = perguntas[atual];
+    perguntaAtual = perguntas[atual];
 
-    caixaPerguntas.textContent = perguntaAtual.enunciado;
+    caixaPerguntas.textContent =
+        perguntaAtual.enunciado;
+
     caixaAlternativas.textContent = "";
 
-    perguntaAtual.alternativas.forEach(alternativa => {
+    numeroPergunta.textContent =
+        `Momento ${atual + 1} de ${perguntas.length}`;
 
-        const botao = document.createElement("button");
+    const progresso =
+        (atual / perguntas.length) * 100;
 
-        botao.textContent = alternativa.texto;
+    barraProgresso.style.width =
+        `${progresso}%`;
 
-        botao.onclick = () => {
-
-            historiaFinal += alternativa.afirmacao + " ";
-            atual++;
-            mostraPergunta();
-
-        }
-
-        caixaAlternativas.appendChild(botao);
-
-    });
-
+    mostraAlternativas();
 }
 
-function mostrarResultado(){
 
-    caixaPerguntas.textContent = "Resultado Final";
+/* CRIA OS BOTÕES */
+
+function mostraAlternativas() {
+
+    for (const alternativa of perguntaAtual.alternativas) {
+
+        const botaoAlternativa =
+            document.createElement("button");
+
+        botaoAlternativa.textContent =
+            alternativa.texto;
+
+        botaoAlternativa.addEventListener(
+            "click",
+            () => respostaSelecionada(alternativa)
+        );
+
+        caixaAlternativas.appendChild(
+            botaoAlternativa
+        );
+    }
+}
+
+
+/* REGISTRA A ESCOLHA */
+
+function respostaSelecionada(
+    opcaoSelecionada
+) {
+
+    const consequencia =
+        opcaoSelecionada.consequencia;
+
+    historiaFinal +=
+        consequencia + "\n\n";
+
+    atual++;
+
+    mostraPergunta();
+}
+
+
+/* MOSTRA O RESULTADO */
+
+function mostraResultado() {
+
+    barraProgresso.style.width = "100%";
+
+    numeroPergunta.textContent =
+        "Sua jornada";
+
+    caixaPerguntas.textContent =
+        "Ao olhar para todas as suas escolhas, você percebe que cada decisão teve uma consequência.";
+
+    caixaAlternativas.textContent = "";
 
     textoResultado.textContent =
-    historiaFinal +
-    " Continue desenvolvendo suas habilidades, pois elas podem ajudá-lo a escolher uma carreira que combine com seu perfil.";
+        historiaFinal +
+        "No final, você descobriu que cuidar da saúde e do bem-estar é uma jornada feita de pequenas escolhas todos os dias.";
 
-    caixaAlternativas.textContent = "";
-
+    caixaResultado.style.display =
+        "block";
 }
+
+
+/* REINICIA O QUIZ */
+
+function reiniciarQuiz() {
+
+    atual = 0;
+
+    historiaFinal = "";
+
+    caixaResultado.style.display =
+        "none";
+
+    mostraPergunta();
+}
+
+
+botaoReiniciar.addEventListener(
+    "click",
+    reiniciarQuiz
+);
+
+
+/* INICIA A HISTÓRIA */
 
 mostraPergunta();
